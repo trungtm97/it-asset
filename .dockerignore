@@ -1,0 +1,6 @@
+.git
+.gitignore
+*.exe
+it-asset-manager
+Dockerfile
+docker-compose.yml

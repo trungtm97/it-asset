@@ -1,0 +1,26 @@
+# Compiled binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+it-asset-manager
+
+# Local databases (optional, but keep template files if needed)
+# data/assets.json
+# data/logs.json
+
+# Operating System Files
+Thumbs.db
+db.db
+.DS_Store
+.directory
+
+# IDE / Editor configuration
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

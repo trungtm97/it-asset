@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  it-asset-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: it-asset-manager
+    ports:
+      - "8080:8000"
+    volumes:
+      - ./data:/app/data
+    restart: always

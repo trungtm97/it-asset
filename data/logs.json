@@ -1,0 +1,82 @@
+[
+  {
+    "timestamp": "2026-07-09T09:09:29Z",
+    "action": "Cập nhật thông tin",
+    "assetId": "AST-0001",
+    "assetName": "MacBook Pro 16-inch M3",
+    "operator": "Admin IT",
+    "details": "Cập nhật chi tiết thông tin tài sản."
+  },
+  {
+    "timestamp": "2026-07-09T09:08:20Z",
+    "action": "Thu hồi tài sản",
+    "assetId": "AST-0003",
+    "assetName": "ThinkPad X1 Carbon Gen 11",
+    "operator": "Admin IT",
+    "details": "Đã thu hồi từ Trần Mạnh Trung (BP.CNTT). Thiết bị đưa về vị trí kho lưu trữ: Kho IT, Chi nhánh HN"
+  },
+  {
+    "timestamp": "2026-07-09T09:05:06Z",
+    "action": "Điều chuyển tài sản",
+    "assetId": "AST-0003",
+    "assetName": "ThinkPad X1 Carbon Gen 11",
+    "operator": "Admin IT",
+    "details": "Điều chuyển từ Trần Thị Bình (Finance) sang Trần Mạnh Trung (BP.CNTT). Vị trí sử dụng mới: Lầu 1 VP 159. (Công ty sở hữu: Seatek)"
+  },
+  {
+    "timestamp": "2026-07-09T08:49:14Z",
+    "action": "Cập nhật thông tin",
+    "assetId": "AST-0001",
+    "assetName": "MacBook Pro 16-inch M3",
+    "operator": "Admin IT",
+    "details": "Cập nhật thay đổi: Trạng thái: Available -\u003e Disposed, Vị trí kho: 'Kho IT, Văn phòng HCM' -\u003e 'A'"
+  },
+  {
+    "timestamp": "2026-07-09T08:48:33Z",
+    "action": "Thu hồi tài sản",
+    "assetId": "AST-0001",
+    "assetName": "MacBook Pro 16-inch M3",
+    "operator": "Admin IT",
+    "details": "Đã thu hồi từ Nguyễn Văn An (Engineering). Thiết bị đưa về vị trí kho lưu trữ: Kho IT, Văn phòng HCM"
+  },
+  {
+    "timestamp": "2026-07-09T08:30:00+07:00",
+    "action": "Khởi tạo hệ thống",
+    "assetId": "-",
+    "assetName": "Hệ thống Quản lý tài sản IT",
+    "operator": "Hệ thống",
+    "details": "Đã nhập dữ liệu tài sản ban đầu vào cơ sở dữ liệu."
+  },
+  {
+    "timestamp": "2026-07-09T09:15:00+07:00",
+    "action": "Cấp phát tài sản",
+    "assetId": "AST-0001",
+    "assetName": "MacBook Pro 16-inch M3",
+    "operator": "Lê Minh Tâm (IT Manager)",
+    "details": "Đã cấp phát máy MacBook cho Nguyễn Văn An (Phòng Engineering)."
+  },
+  {
+    "timestamp": "2026-07-09T09:20:00+07:00",
+    "action": "Cấp phát tài sản",
+    "assetId": "AST-0004",
+    "assetName": "Dell UltraSharp 27 U2723QE",
+    "operator": "Lê Minh Tâm (IT Manager)",
+    "details": "Đã cấp phát màn hình Dell kèm dây USB-C cho Nguyễn Văn An."
+  },
+  {
+    "timestamp": "2026-07-09T10:00:00+07:00",
+    "action": "Gửi đi bảo trì",
+    "assetId": "AST-0006",
+    "assetName": "Server HP ProLiant DL360 Gen10",
+    "operator": "Lê Minh Tâm (IT Manager)",
+    "details": "Ghi nhận lỗi hỏng ổ cứng SSD số 2. Đã tạo yêu cầu gửi bảo hành tới nhà cung cấp HP."
+  },
+  {
+    "timestamp": "2026-07-09T11:45:00+07:00",
+    "action": "Thanh lý tài sản",
+    "assetId": "AST-0008",
+    "assetName": "iPad Pro 11-inch M2",
+    "operator": "Lê Minh Tâm (IT Manager)",
+    "details": "Thực hiện thanh lý thiết bị hỏng màn hình do rơi vỡ. Số hồ sơ: TL-2026-08."
+  }
+]

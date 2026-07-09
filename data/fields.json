@@ -1,0 +1,17 @@
+[
+  {
+    "key": "he_dieu_hanh",
+    "label": "Hệ điều hành",
+    "type": "text"
+  },
+  {
+    "key": "ram_gb",
+    "label": "Dung lượng RAM (GB)",
+    "type": "number"
+  },
+  {
+    "key": "dung_luong_o_cung",
+    "label": "Dung lượng ổ cứng",
+    "type": "text"
+  }
+]

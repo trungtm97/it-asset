@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Asset Management | Quản Lý Tài Sản IT</title>
+    <!-- Google Fonts - Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-laptop-code logo-icon"></i>
+                <span class="logo-text">IT<span>Assets</span></span>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" data-tab="dashboard" id="btn-tab-dashboard">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Tổng quan</span>
+                </a>
+                <a href="#" class="menu-item" data-tab="assets" id="btn-tab-assets">
+                    <i class="fa-solid fa-cubes"></i>
+                    <span>Tài sản IT</span>
+                </a>
+                <a href="#" class="menu-item" data-tab="logs" id="btn-tab-logs">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Nhật ký</span>
+                </a>
+                <a href="#" class="menu-item" data-tab="fields" id="btn-tab-fields">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>Cấu hình trường</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="profile-info">
+                        <span class="username">Admin IT</span>
+                        <span class="role">Quản trị viên</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="main-header">
+                <div class="header-title">
+                    <h1 id="page-title">Hệ thống Quản lý Tài sản IT</h1>
+                    <p id="page-subtitle">Tổng quan trạng thái thiết bị và phần mềm</p>
+                </div>
+                <div class="header-actions">
+                    <div class="system-time" id="system-time">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <span>Thứ Năm, 09/07/2026</span>
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle" title="Đổi giao diện">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- TAB 1: Dashboard Panel -->
+            <section class="tab-panel active" id="panel-dashboard">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card total" onclick="filterAssetsByStatus('')">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Tổng tài sản</h3>
+                            <div class="value" id="stat-total">0</div>
+                        </div>
+                        <div class="glow-bg"></div>
+                    </div>
+                    
+                    <div class="stat-card active" onclick="filterAssetsByStatus('Active')">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Đang cấp phát</h3>
+                            <div class="value" id="stat-active">0</div>
+                        </div>
+                        <div class="glow-bg"></div>
+                    </div>
+
+                    <div class="stat-card available" onclick="filterAssetsByStatus('Available')">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-warehouse"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Sẵn sàng sử dụng</h3>
+                            <div class="value" id="stat-available">0</div>
+                        </div>
+                        <div class="glow-bg"></div>
+                    </div>
+
+                    <div class="stat-card maintenance" onclick="filterAssetsByStatus('Maintenance')">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Đang bảo trì</h3>
+                            <div class="value" id="stat-maintenance">0</div>
+                        </div>
+                        <div class="glow-bg"></div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Charts & Activities -->
+                <div class="dashboard-grid">
+                    <!-- Category Chart Container -->
+                    <div class="dashboard-card chart-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-chart-donut"></i> Phân loại tài sản</h2>
+                        </div>
+                        <div class="card-body chart-body">
+                            <div class="chart-wrapper">
+                                <!-- Dynamic SVG Chart will go here -->
+                                <div class="svg-container" id="category-chart-container">
+                                    <svg viewBox="0 0 200 200" id="category-pie-chart">
+                                        <circle r="70" cx="100" cy="100" fill="transparent" stroke="var(--bg-card-light)" stroke-width="20"></circle>
+                                    </svg>
+                                    <div class="chart-center-text">
+                                        <span id="chart-total-value">0</span>
+                                        <span class="label">Tài sản</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-legend" id="category-chart-legend">
+                                <!-- Legend items dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Logs -->
+                    <div class="dashboard-card activity-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-list-check"></i> Hoạt động gần đây</h2>
+                            <button class="btn-text-link" id="btn-view-all-logs">Xem tất cả <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-timeline" id="recent-activities">
+                                <!-- Timelines items dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: Asset Management Panel -->
+            <section class="tab-panel" id="panel-assets">
+                <!-- Action and Filter Bar -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="input-search-assets" placeholder="Tìm kiếm mã, tên, serial, người sở hữu...">
+                    </div>
+                    
+                    <div class="filter-controls">
+                        <div class="select-wrapper">
+                            <i class="fa-solid fa-folder filter-select-icon"></i>
+                            <select id="select-filter-category">
+                                <option value="">Tất cả danh mục</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Desktop">Desktop / Workstation</option>
+                                <option value="Server">Máy chủ (Server)</option>
+                                <option value="Monitor">Màn hình (Monitor)</option>
+                                <option value="Network">Thiết bị mạng (Network)</option>
+                                <option value="License">Giấy phép phần mềm</option>
+                                <option value="Mobile">Thiết bị di động</option>
+                                <option value="Other">Khác</option>
+                            </select>
+                        </div>
+
+                        <div class="select-wrapper">
+                            <i class="fa-solid fa-signal filter-select-icon"></i>
+                            <select id="select-filter-status">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="Active">Đang cấp phát</option>
+                                <option value="Available">Sẵn sàng sử dụng</option>
+                                <option value="Maintenance">Đang bảo trì</option>
+                                <option value="Disposed">Đã thanh lý</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" id="btn-add-asset-modal">
+                            <i class="fa-solid fa-plus"></i> Thêm tài sản
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Assets Registry Table -->
+                <div class="table-container shadow-premium">
+                    <table class="premium-table" id="table-assets">
+                        <thead>
+                            <tr>
+                                <th style="width: 110px;">Mã tài sản</th>
+                                <th>Tên tài sản / Công ty mua</th>
+                                <th style="width: 120px;">Danh mục</th>
+                                <th style="width: 130px;">Serial / Thương hiệu</th>
+                                <th style="width: 130px;">Trạng thái</th>
+                                <th style="width: 160px;">Đang cấp phát cho</th>
+                                <th>Vị trí (Lưu trữ / Sử dụng)</th>
+                                <th style="width: 180px;" class="text-right">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-assets">
+                            <!-- Table rows dynamically generated -->
+                            <tr>
+                                <td colspan="8" class="text-center">Đang tải dữ liệu tài sản...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 3: Audit Logs Panel -->
+            <section class="tab-panel" id="panel-logs">
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="input-search-logs" placeholder="Tìm theo mã tài sản, hành động, mô tả...">
+                    </div>
+                </div>
+
+                <div class="table-container shadow-premium">
+                    <table class="premium-table" id="table-logs">
+                        <thead>
+                            <tr>
+                                <th style="width: 180px;">Thời gian</th>
+                                <th style="width: 150px;">Hành động</th>
+                                <th style="width: 120px;">Mã tài sản</th>
+                                <th>Tên tài sản</th>
+                                <th style="width: 160px;">Người thực hiện</th>
+                                <th>Chi tiết hoạt động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-logs">
+                            <!-- Table rows dynamically generated -->
+                            <tr>
+                                <td colspan="6" class="text-center">Đang tải nhật ký hệ thống...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 4: Custom Fields Configuration Panel -->
+            <section class="tab-panel" id="panel-fields">
+                <div class="fields-configuration-layout">
+                    <!-- Fields definition List -->
+                    <div class="dashboard-card fields-list-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-list-ul"></i> Danh sách trường thông tin tùy chỉnh</h2>
+                        </div>
+                        <div class="card-body" style="padding: 0;">
+                            <div class="table-container" style="border: none; border-radius: 0;">
+                                <table class="premium-table" id="table-custom-fields">
+                                    <thead>
+                                        <tr>
+                                            <th>Nhãn hiển thị (Label)</th>
+                                            <th>Mã trường (Key)</th>
+                                            <th>Kiểu dữ liệu</th>
+                                            <th class="text-right" style="width: 100px;">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-custom-fields">
+                                        <!-- Rows dynamically generated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Field Form Card -->
+                    <div class="dashboard-card field-form-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-plus-minus"></i> Thêm trường tùy chỉnh mới</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-create-field">
+                                <div class="form-group">
+                                    <label for="new-field-label">Tên trường (Nhãn hiển thị) <span class="required">*</span></label>
+                                    <input type="text" id="new-field-label" placeholder="VD: Hệ điều hành, Dung lượng RAM" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-field-key">Mã trường (Viết liền không dấu, dùng dấu gạch dưới) <span class="required">*</span></label>
+                                    <input type="text" id="new-field-key" placeholder="VD: he_dieu_hanh, dung_luong_ram" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-field-type">Kiểu dữ liệu <span class="required">*</span></label>
+                                    <select id="new-field-type" required>
+                                        <option value="text">Chữ (Text)</option>
+                                        <option value="number">Số (Number)</option>
+                                        <option value="date">Ngày tháng (Date)</option>
+                                        <option value="boolean">Đúng / Sai (Boolean)</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+                                    <i class="fa-solid fa-square-plus"></i> Đăng ký trường
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL 1: Add / Edit Asset -->
+    <div class="modal-backdrop" id="modal-asset">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-asset-title">Thêm tài sản IT mới</h3>
+                <button class="modal-close" id="btn-close-asset-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-asset">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="asset-id">Mã tài sản (Để trống để tự động tạo)</label>
+                            <input type="text" id="asset-id" placeholder="VD: AST-0001">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="asset-category">Danh mục tài sản <span class="required">*</span></label>
+                            <select id="asset-category" required>
+                                <option value="">Chọn danh mục...</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Desktop">Desktop / Workstation</option>
+                                <option value="Server">Máy chủ (Server)</option>
+                                <option value="Monitor">Màn hình (Monitor)</option>
+                                <option value="Network">Thiết bị mạng (Network)</option>
+                                <option value="License">Giấy phép phần mềm</option>
+                                <option value="Mobile">Thiết bị di động</option>
+                                <option value="Other">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="asset-company">Công ty mua/sở hữu tài sản <span class="required">*</span></label>
+                            <select id="asset-company" required>
+                                <option value="SeaCorp">SeaCorp</option>
+                                <option value="DannyGreen Retail">DannyGreen Retail</option>
+                                <option value="DNG">DNG</option>
+                                <option value="Al Fa Mega">Al Fa Mega</option>
+                                <option value="DNG Nacopharma">DNG Nacopharma</option>
+                                <option value="Seatek">Seatek</option>
+                                <option value="SMPC">SMPC</option>
+                                <option value="SADC">SADC</option>
+                                <option value="PMD">PMD</option>
+                                <option value="SeaLand">SeaLand</option>
+                                <option value="DannyGreen">DannyGreen</option>
+                                <option value="SeaLion">SeaLion</option>
+                                <option value="HACT">HACT</option>
+                                <option value="NJSC">NJSC</option>
+                                <option value="DannyGreen Beverages">DannyGreen Beverages</option>
+                                <option value="SeaFarm">SeaFarm</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="asset-brand">Thương hiệu / Hãng</label>
+                            <input type="text" id="asset-brand" placeholder="VD: Apple, Dell, HP">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="asset-name">Tên tài sản (Tên thiết bị, phiên bản) <span class="required">*</span></label>
+                        <input type="text" id="asset-name" placeholder="VD: MacBook Pro M3 14 inch" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="asset-model">Model chi tiết (Cấu hình)</label>
+                            <input type="text" id="asset-model" placeholder="VD: Core i7, 16GB RAM, 512GB SSD">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="asset-serial">Số Serial / Code của hãng</label>
+                            <input type="text" id="asset-serial" placeholder="VD: CN-0F391Y-...">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="asset-status">Trạng thái khởi tạo</label>
+                            <select id="asset-status">
+                                <option value="Available">Sẵn sàng sử dụng (Trong kho)</option>
+                                <option value="Active">Đang hoạt động (Cấp phát ngay)</option>
+                                <option value="Maintenance">Đang bảo trì</option>
+                                <option value="Disposed">Đã thanh lý</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="asset-purchase-date">Ngày mua</label>
+                            <input type="date" id="asset-purchase-date">
+                        </div>
+                    </div>
+
+                    <!-- Conditional status fields row (Day of disposal or reason of maintenance) -->
+                    <div class="form-row" id="row-status-conditional" style="margin-bottom: 0;">
+                        <div class="form-group col-6" id="wrapper-disposal-date" style="display: none;">
+                            <label for="asset-disposal-date">Ngày thanh lý <span class="required">*</span></label>
+                            <input type="date" id="asset-disposal-date">
+                        </div>
+                        <div class="form-group col-12" id="wrapper-maintenance-reason" style="display: none;">
+                            <label for="asset-maintenance-reason">Lý do bảo trì <span class="required">*</span></label>
+                            <textarea id="asset-maintenance-reason" rows="2" placeholder="Mô tả hiện trạng lỗi hỏng phần cứng hoặc chi tiết gửi bảo hành..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="asset-purchase-cost">Giá mua (VNĐ)</label>
+                            <input type="number" id="asset-purchase-cost" placeholder="VD: 25000000" min="0">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="asset-storage-location" id="label-storage-location">Vị trí lưu trữ (Kho) <span class="required">*</span></label>
+                            <input type="text" id="asset-storage-location" placeholder="VD: Kho IT Lầu 4, Kho HN" value="Kho IT" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="asset-usage-location">Vị trí sử dụng thực tế (Nếu đang cấp phát)</label>
+                            <input type="text" id="asset-usage-location" placeholder="VD: Bàn làm việc Lầu 5, Phòng Server">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="asset-assigned-to">Nhân viên nhận bàn giao (Nếu có)</label>
+                            <input type="text" id="asset-assigned-to" placeholder="Họ và tên nhân viên">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="asset-department">Phòng ban (Nếu đang cấp phát)</label>
+                            <input type="text" id="asset-department" placeholder="VD: Engineering, Finance">
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Custom Fields Container (Injected by JS) -->
+                    <div class="form-section-title" id="title-custom-fields-section" style="display:none;">Trường thông tin tùy chỉnh</div>
+                    <div class="form-row" id="dynamic-custom-fields-container" style="flex-wrap: wrap; margin-bottom: 0;">
+                        <!-- Dynamic input fields render here -->
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="asset-notes">Ghi chú thêm</label>
+                        <textarea id="asset-notes" rows="3" placeholder="Ghi chú chi tiết về hiện trạng bàn giao hoặc phụ kiện kèm theo..."></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-asset-form">Hủy bỏ</button>
+                        <button type="submit" class="btn btn-primary" id="btn-save-asset">Lưu tài sản</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Assign Asset Form -->
+    <div class="modal-backdrop" id="modal-assign">
+        <div class="modal-card modal-sm">
+            <div class="modal-header">
+                <h3>Cấp phát tài sản IT</h3>
+                <button class="modal-close" id="btn-close-assign-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="asset-brief-info">
+                    <i class="fa-solid fa-laptop"></i>
+                    <div>
+                        <strong id="assign-asset-display-id">AST-0001</strong>
+                        <span id="assign-asset-display-name">MacBook Pro 16-inch</span>
+                    </div>
+                </div>
+                
+                <form id="form-assign">
+                    <input type="hidden" id="assign-asset-id">
+                    
+                    <div class="form-group">
+                        <label for="assign-to-employee">Nhân viên nhận bàn giao <span class="required">*</span></label>
+                        <input type="text" id="assign-to-employee" placeholder="Họ tên nhân viên nhận bàn giao" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assign-department">Phòng ban nhân viên</label>
+                        <input type="text" id="assign-department" placeholder="VD: Engineering, Sales, Admin">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assign-usage-location">Vị trí sử dụng bàn giao</label>
+                        <input type="text" id="assign-usage-location" placeholder="VD: Tầng 4 bàn 12, Chi nhánh HN" value="Bàn làm việc nhân viên">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assign-operator">Người thực hiện bàn giao</label>
+                        <input type="text" id="assign-operator" value="Lê Minh Tâm (IT Manager)">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-assign-form">Hủy</button>
+                        <button type="submit" class="btn btn-success">Xác nhận bàn giao</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Return Asset Form -->
+    <div class="modal-backdrop" id="modal-return">
+        <div class="modal-card modal-sm">
+            <div class="modal-header">
+                <h3>Thu hồi tài sản về kho</h3>
+                <button class="modal-close" id="btn-close-return-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="asset-brief-info">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                    <div>
+                        <strong id="return-asset-display-id">AST-0001</strong>
+                        <span id="return-asset-display-name">MacBook Pro 16-inch</span>
+                    </div>
+                </div>
+                <div class="alert-info-box">
+                    <p><i class="fa-solid fa-circle-info"></i> Thiết bị này sẽ được gỡ thông tin người dùng hiện tại và đánh dấu trạng thái là <strong>Sẵn sàng sử dụng (Available)</strong>.</p>
+                </div>
+                
+                <form id="form-return">
+                    <input type="hidden" id="return-asset-id">
+                    
+                    <div class="form-group">
+                        <label for="return-storage-location">Nhập kho lưu trữ nhận lại</label>
+                        <input type="text" id="return-storage-location" value="Kho IT, Văn phòng HCM" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="return-operator">Người thực hiện thu hồi</label>
+                        <input type="text" id="return-operator" value="Lê Minh Tâm (IT Manager)">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-return-form">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Xác nhận thu hồi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: View Asset Details -->
+    <div class="modal-backdrop" id="modal-details">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Chi tiết tài sản IT</h3>
+                <button class="modal-close" id="btn-close-details-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="details-layout">
+                    <div class="details-header-section" style="display: flex; justify-content: space-between; align-items: center; text-align: left;">
+                        <div>
+                            <span class="asset-code" id="detail-display-id" style="font-size: 16px; padding: 6px 12px;">AST-0001</span>
+                            <h2 id="detail-display-name" style="margin-top: 12px; font-size: 22px; font-weight: 700; color: var(--text-main);">MacBook Pro M3</h2>
+                            <div style="margin-top: 8px;"><span class="badge" id="detail-display-status">Sẵn sàng</span></div>
+                        </div>
+                        <div class="detail-qr-code" style="text-align: center;">
+                            <img id="detail-qr-image" src="" alt="Mã QR Tài sản" style="width: 110px; height: 110px; border-radius: 8px; border: 1px solid var(--border-glass); background: white; padding: 4px;">
+                            <div style="font-size: 9px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Quét xem nhanh</div>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title" style="margin-top: 20px;">Thông tin cơ bản</div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">Danh mục</span>
+                            <span class="value" id="detail-val-category">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Công ty sở hữu</span>
+                            <span class="value" id="detail-val-company">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Thương hiệu</span>
+                            <span class="value" id="detail-val-brand">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Model chi tiết</span>
+                            <span class="value" id="detail-val-model">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Số Serial</span>
+                            <span class="value" id="detail-val-serial" style="font-family: monospace;">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Ngày mua</span>
+                            <span class="value" id="detail-val-purchase-date">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Giá mua</span>
+                            <span class="value" id="detail-val-purchase-cost">-</span>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">Quản lý cấp phát & Vị trí</div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">Người sở hữu hiện tại</span>
+                            <span class="value" id="detail-val-assigned-to">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Phòng ban</span>
+                            <span class="value" id="detail-val-department">-</span>
+                        </div>
+                        <div class="detail-item" id="detail-wrapper-storage-location">
+                            <span class="label">Vị trí lưu trữ (Kho)</span>
+                            <span class="value" id="detail-val-storage-location">-</span>
+                        </div>
+                        <div class="detail-item" id="detail-wrapper-usage-location">
+                            <span class="label">Vị trí sử dụng thực tế</span>
+                            <span class="value" id="detail-val-usage-location">-</span>
+                        </div>
+                        <div class="detail-item" id="detail-wrapper-disposal-date" style="display: none;">
+                            <span class="label">Ngày thanh lý</span>
+                            <span class="value" id="detail-val-disposal-date">-</span>
+                        </div>
+                        <div class="detail-item" id="detail-wrapper-maintenance-reason" style="display: none; grid-column: span 2;">
+                            <span class="label">Lý do bảo trì</span>
+                            <span class="value" id="detail-val-maintenance-reason">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Custom Fields Details Grid -->
+                    <div class="form-section-title" id="detail-custom-fields-title" style="display:none;">Trường thông tin tùy chỉnh</div>
+                    <div class="detail-grid" id="detail-custom-fields-grid">
+                        <!-- Dynamically injected custom fields -->
+                    </div>
+
+                    <div class="form-section-title">Ghi chú</div>
+                    <div class="detail-notes-box" id="detail-val-notes">
+                        Không có ghi chú nào khác cho tài sản này.
+                    </div>
+
+                    <div class="form-section-title"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử hoạt động tài sản</div>
+                    <div class="activity-timeline" id="detail-asset-history-timeline" style="margin-top: 15px; max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                        <!-- Timeline items dynamically generated -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn-close-details-footer" style="width: 120px; justify-content: center;">Đóng cửa sổ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 5: Transfer Asset Form -->
+    <div class="modal-backdrop" id="modal-transfer">
+        <div class="modal-card modal-sm">
+            <div class="modal-header">
+                <h3>Điều chuyển tài sản IT</h3>
+                <button class="modal-close" id="btn-close-transfer-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="asset-brief-info">
+                    <i class="fa-solid fa-shuffle"></i>
+                    <div>
+                        <strong id="transfer-asset-display-id">AST-0001</strong>
+                        <span id="transfer-asset-display-name">MacBook Pro 16-inch</span>
+                    </div>
+                </div>
+                
+                <div class="alert-info-box" style="background-color: rgba(0, 242, 254, 0.08); border-color: rgba(0, 242, 254, 0.2); padding: 10px 14px;">
+                    <p style="color: var(--text-main); font-size: 13px; margin-bottom: 4px;">
+                        <i class="fa-solid fa-user-clock"></i> <strong>Người sử dụng cũ:</strong> <span id="transfer-asset-display-old-user">-</span>
+                    </p>
+                    <p style="font-size: 11px; color: var(--text-muted);">
+                        <i class="fa-solid fa-building"></i> <strong>Công ty sở hữu:</strong> <span id="transfer-asset-display-company">-</span> (Giữ nguyên không đổi)
+                    </p>
+                </div>
+                
+                <form id="form-transfer">
+                    <input type="hidden" id="transfer-asset-id">
+                    
+                    <div class="form-group">
+                        <label for="transfer-to-employee">Nhân viên nhận mới <span class="required">*</span></label>
+                        <input type="text" id="transfer-to-employee" placeholder="Họ tên nhân viên nhận bàn giao mới" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transfer-department">Phòng ban mới</label>
+                        <input type="text" id="transfer-department" placeholder="VD: Engineering, Sales, Admin">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transfer-usage-location">Vị trí sử dụng mới</label>
+                        <input type="text" id="transfer-usage-location" placeholder="VD: Lầu 5 bàn 14, Văn phòng HN" value="Bàn làm việc nhân viên">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transfer-operator">Người thực hiện điều chuyển</label>
+                        <input type="text" id="transfer-operator" value="Lê Minh Tâm (IT Manager)">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel-transfer-form">Hủy</button>
+                        <button type="submit" class="btn btn-success">Xác nhận điều chuyển</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
